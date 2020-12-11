@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/eleven?serverTimezone=Asia/Shanghai"
+                        userId="root"
+                        password="12345678"
+        >
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.eleven.boke.pojo.Do" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.eleven.boke.mapper" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+        <table
+                tableName="boke_article_info"
+                domainObjectName="BokeArticleInfoDo">
+        </table>
+        <table
+                tableName="boke_article_message"
+                domainObjectName="BokeArticleMessageDo">
+        </table>
+        <table
+                tableName="boke_sys_view"
+                domainObjectName="BokeSysViewDo">
+        </table>
+    </context>
+</generatorConfiguration>

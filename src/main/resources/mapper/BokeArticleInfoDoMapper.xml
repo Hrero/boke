@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleven.boke.mapper.BokeArticleInfoDoMapper">
+  <resultMap id="BaseResultMap" type="com.eleven.boke.pojo.Do.BokeArticleInfoDo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="is_top" jdbcType="BIGINT" property="isTop" />
+    <result column="traffic" jdbcType="INTEGER" property="traffic" />
+    <result column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="sort_id" jdbcType="BIGINT" property="sortId" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      id, title, summary, is_top, traffic, message_id,
+      picture, sort_id, gmt_created, gmt_modified, content
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from boke_article_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeArticleInfoDo">
+    insert into boke_article_info (id, title, summary, 
+      is_top, traffic, message_id, 
+      picture, sort_id,
+      content)
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{isTop,jdbcType=BIT}, #{traffic,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, 
+      #{picture,jdbcType=VARCHAR}, #{sortId,jdbcType=INTEGER},
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eleven.boke.pojo.Do.BokeArticleInfoDo">
+    update boke_article_info
+    set title = #{title,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      is_top = #{isTop,jdbcType=BIT},
+      traffic = #{traffic,jdbcType=INTEGER},
+      message_id = #{messageId,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR},
+      sort_id = #{sortId,jdbcType=INTEGER},
+      gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from boke_article_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from boke_article_info
+  </select>
+</mapper>
