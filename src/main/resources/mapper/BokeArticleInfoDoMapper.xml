@@ -41,8 +41,6 @@
       message_id = #{messageId,jdbcType=INTEGER},
       picture = #{picture,jdbcType=VARCHAR},
       sort_id = #{sortId,jdbcType=INTEGER},
-      gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -56,5 +54,16 @@
     select
     <include refid="Base_Column_List"/>
     from boke_article_info
+  </select>
+  <select id="pageQuery" parameterType="com.eleven.boke.pojo.Do.BokeArticleInfoDo" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List"/>
+    from boke_article_info
+
+    <trim prefix="where" prefixOverrides="and">
+
+    </trim>
+
   </select>
 </mapper>

@@ -4,6 +4,8 @@ import com.eleven.boke.pojo.Do.BokeSysViewDo;
 import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.UserQuery;
 
+import java.util.List;
+
 /**
  * @author : eleven
  * @description: TODO
@@ -11,4 +13,5 @@ import com.eleven.boke.pojo.query.UserQuery;
  */
 public interface UserService {
     ResultEntity<BokeSysViewDo> addUserView(UserQuery userQuery);
+    ResultEntity<List<BokeSysViewDo>> getUserView();
 }

@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author : eleven
  * @description: TODO
@@ -26,6 +28,11 @@ public class UserController {
     @PostMapping(value = "/addUserView")
     public ResultEntity<BokeSysViewDo> addUserView(@RequestBody UserQuery userQuery) {
         return userService.addUserView(userQuery);
+    }
+
+    @PostMapping(value = "/getUserView")
+    public ResultEntity<List<BokeSysViewDo>> getUserView() {
+        return userService.getUserView();
     }
 
 }

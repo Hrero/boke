@@ -2,16 +2,13 @@ package com.eleven.boke.enums;
 
 import com.eleven.boke.base.BaseEnum;
 
-public enum ArticleSortEnum implements BaseEnum {
-    SORT_DEVELOPMENT(1, "开发者手册"),
-    SORT_JAVA(2, "JAVA"),
-    SORT_JS(3, "JS"),
-    SORT_MUSIC(4, "音乐")
+public enum UserEnum implements BaseEnum {
+    SORT_DEVELOPMENT(20001, "继续浏览")
     ;
 
     private int code;
     private String message;
-    ArticleSortEnum(int code, String message) {
+    UserEnum(int code, String message) {
         this.code = code;
         this.message = message;
     }

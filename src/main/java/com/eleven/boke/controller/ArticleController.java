@@ -1,7 +1,9 @@
 package com.eleven.boke.controller;
 
+import com.eleven.boke.base.PageResult;
 import com.eleven.boke.pojo.entity.ResultEntity;
-import com.eleven.boke.pojo.vo.AddOrUpdateVo;
+import com.eleven.boke.pojo.query.ArticleListQuery;
+import com.eleven.boke.pojo.vo.ArticleVo;
 import com.eleven.boke.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +20,13 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping(value = "/addOrUpdate")
-    public ResultEntity<AddOrUpdateVo> getUserByName(@RequestBody AddOrUpdateVo addOrUpdateVo) {
-        return articleService.addOrUpdate(addOrUpdateVo);
+    public ResultEntity<ArticleVo> getUserByName(@RequestBody ArticleVo articleVo) {
+        return articleService.addOrUpdate(articleVo);
+    }
+
+    @PostMapping(value = "/getArticleList")
+    public ResultEntity<PageResult<ArticleVo>> getArticleList(@RequestBody ArticleListQuery articleListQuery) {
+        return articleService.getArticleList(articleListQuery);
     }
 }
 
