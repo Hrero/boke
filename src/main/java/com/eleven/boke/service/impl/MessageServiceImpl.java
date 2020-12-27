@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public ResultEntity<BokeArticleMessageDo> addMessage(AddMessageQuery addMessageQuery) {
-        if (addMessageQuery.getContent() == null || addMessageQuery.getEmail() == null || addMessageQuery.getIp() == null
+        if (addMessageQuery.getEmail() == null || addMessageQuery.getIp() == null
         || addMessageQuery.getName() == null) {
             ResultUtil.error(MessageEnum.MESSAGE_PARAMS_NULL);
         }

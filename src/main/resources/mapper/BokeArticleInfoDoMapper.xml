@@ -13,10 +13,15 @@
     <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="html" jdbcType="LONGVARCHAR" property="html" />
+    <result column="head_title" jdbcType="VARCHAR" property="headTitle" />
+    <result column="head_keywords" jdbcType="VARCHAR" property="headKeywords" />
+    <result column="head_description" jdbcType="VARCHAR" property="headDescription" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
   </resultMap>
   <sql id="Base_Column_List">
       id, title, summary, is_top, traffic, message_id,
-      picture, sort_id, gmt_created, gmt_modified, content
+      picture, sort_id, gmt_created, gmt_modified, content, html, head_title, head_keywords, head_description, author
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from boke_article_info
@@ -24,24 +29,55 @@
   </delete>
   <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeArticleInfoDo">
     insert into boke_article_info (id, title, summary, 
-      is_top, traffic, message_id, 
+      is_top, traffic, message_id,
       picture, sort_id,
-      content)
+      content, html,head_title, head_keywords, head_description, author)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{isTop,jdbcType=BIT}, #{traffic,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, 
       #{picture,jdbcType=VARCHAR}, #{sortId,jdbcType=INTEGER},
-      #{content,jdbcType=LONGVARCHAR})
+      #{content,jdbcType=LONGVARCHAR}, #{html,jdbcType=LONGVARCHAR}, #{headTitle,jdbcType=VARCHAR}
+      , #{headKeywords,jdbcType=VARCHAR}, #{headDescription,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.eleven.boke.pojo.Do.BokeArticleInfoDo">
     update boke_article_info
-    set title = #{title,jdbcType=VARCHAR},
-      summary = #{summary,jdbcType=VARCHAR},
-      is_top = #{isTop,jdbcType=BIT},
-      traffic = #{traffic,jdbcType=INTEGER},
-      message_id = #{messageId,jdbcType=INTEGER},
-      picture = #{picture,jdbcType=VARCHAR},
-      sort_id = #{sortId,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR}
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="messageId != null">
+        message_id = #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null">
+        sort_id = #{sortId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="html != null">
+        html = #{html,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headTitle != null">
+        head_title = #{headTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="headKeywords != null">
+        head_keywords = #{headKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="headDescription != null">
+        head_description = #{headDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -62,8 +98,11 @@
     from boke_article_info
 
     <trim prefix="where" prefixOverrides="and">
-
+      <if test="sortId != null">
+        sort_id = #{sortId}
+      </if>
     </trim>
+    order by gmt_created desc;
 
   </select>
 </mapper>

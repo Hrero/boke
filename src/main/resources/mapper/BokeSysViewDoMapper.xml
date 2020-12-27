@@ -4,31 +4,79 @@
   <resultMap id="BaseResultMap" type="com.eleven.boke.pojo.Do.BokeSysViewDo">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="sort_id" jdbcType="BIGINT" property="sortId" />
     <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
+  <sql id="Base_Column_List">
+      id, ip, article_id, sort_id, gmt_created, gmt_modified
+  </sql>
   <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeSysViewDo">
-    insert into boke_sys_view (id, ip)
-    values (#{id,jdbcType=BIGINT}, #{ip,jdbcType=VARCHAR})
+    insert into boke_sys_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="sortId != null">
+        sort_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="sortId != null">
+        #{sortId,jdbcType=BIGINT},
+      </if>
+    </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.eleven.boke.pojo.Do.BokeSysViewDo">
     update boke_sys_view
     set id = #{id,jdbcType=BIGINT}
     where ip = #{ip,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, ip, gmt_created, gmt_modified
+  <select id="selectByIp" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
     from boke_sys_view
     where ip = #{ip,jdbcType=VARCHAR}
   </select>
+  <select id="selectByArticleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from boke_sys_view
+    where article_id = #{articleId,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, ip, gmt_created, gmt_modified
+    select id, ip, gmt_created, gmt_modified, article_id
     from boke_sys_view
   </select>
-
-  <select id="selectAllLimit" resultMap="BaseResultMap">
-    select id, ip, gmt_created, gmt_modified
-    from boke_sys_view order by gmt_modified desc limit 5
+  <select id="selectArticleLimit" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM boke_sys_view
+    <trim prefix="where" prefixOverrides="and">
+      <if test="articleId != null">
+        article_id = #{articleId}
+      </if>
+      <if test="sortId != null">
+        sort_id = #{sortId}
+      </if>
+    </trim>
+    order by gmt_modified desc limit 5
   </select>
 
 </mapper>

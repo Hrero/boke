@@ -5,20 +5,25 @@ import java.io.Serializable;
 /**
  * @author : eleven
  * @description: TODO
- * @date : 2020/12/11 23:57
+ * @date : 2020/12/27 13:44
  */
-public class UserQuery implements Serializable {
-    /**
-     * @author: eleven
-     * @description: 用户ip唯一标识
-     */
+public class BokeThumbsQuery implements Serializable {
+    private Long articleId;
     private String ip;
 
     /**
      * @author: eleven
-     * @description: 文章id
+     * @description: 1 点赞 0 取消点赞
      */
-    private Long articleId;
+    private Long status;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     public Long getArticleId() {
         return articleId;

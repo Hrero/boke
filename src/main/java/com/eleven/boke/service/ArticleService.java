@@ -4,6 +4,7 @@ import com.eleven.boke.base.PageResult;
 import com.eleven.boke.enums.ArticleSortEnum;
 import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.ArticleListQuery;
+import com.eleven.boke.pojo.vo.GetArticleInfoVo;
 import com.eleven.boke.pojo.vo.ArticleVo;
 import com.sun.istack.internal.NotNull;
 
@@ -20,5 +21,7 @@ public interface ArticleService {
     ResultEntity<ArticleSortEnum> getSortList();
 
     ResultEntity<PageResult<ArticleVo>> getArticleList(ArticleListQuery articleListQuery);
+
+    ResultEntity<ArticleVo> getArticleInfo(GetArticleInfoVo getArticleInfoVo);
 
 }

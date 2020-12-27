@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.Date;
 import java.util.List;
 
 public interface BokeSysViewDoMapper {
@@ -14,15 +13,17 @@ public interface BokeSysViewDoMapper {
 
     int insert(BokeSysViewDo record);
 
-    BokeSysViewDo selectByPrimaryKey(String ip);
+    List<BokeSysViewDo> selectByArticleId(Long articleId);
+
+    BokeSysViewDo selectByIp(String ip);
 
     List<BokeSysViewDo> selectAll();
 
-    List<BokeSysViewDo> selectAllLimit();
+    List<BokeSysViewDo> selectArticleLimit(@Param("articleId") Long articleId, @Param("sortId") Long sortId);
 
     int updateByPrimaryKey(BokeSysViewDo record);
 
-    @Select("SELECT * FROM boke_sys_view WHERE gmt_created > DATE_SUB(now(),INTERVAL 20 MINUTE) and ip = #{ip}")
+    @Select("SELECT * FROM boke_sys_view WHERE gmt_created > DATE_SUB(now(),INTERVAL 20 MINUTE) and ip = #{ip} and article_id = #{articleId}")
     @ResultMap("BaseResultMap")
-    List<BokeSysViewDo> selectTimeReadyIn(@Param("ip") String ip);
+    List<BokeSysViewDo> selectTimeReadyIn(@Param("ip") String ip, @Param("articleId") Long articleId);
 }

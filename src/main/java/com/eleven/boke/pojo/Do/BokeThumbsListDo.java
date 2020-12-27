@@ -1,35 +1,27 @@
 package com.eleven.boke.pojo.Do;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BokeSysViewDo {
-
+/**
+ * @author : eleven
+ * @description: TODO
+ * @date : 2020/12/27 13:36
+ */
+public class BokeThumbsListDo {
     private Long id;
-
     private String ip;
-
+    private Long article_id;
     private Date gmtCreated;
-
     private Date gmtModified;
+    private Long status;
 
-    private Long articleId;
-
-    private Long sortId;
-
-    public Long getSortId() {
-        return sortId;
+    public Long getStatus() {
+        return status;
     }
 
-    public void setSortId(Long sortId) {
-        this.sortId = sortId;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
+    public void setStatus(Long status) {
+        this.status = status;
     }
 
     public Long getId() {
@@ -46,6 +38,14 @@ public class BokeSysViewDo {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public Long getArticle_id() {
+        return article_id;
+    }
+
+    public void setArticle_id(Long article_id) {
+        this.article_id = article_id;
     }
 
     public Date getGmtCreated() {

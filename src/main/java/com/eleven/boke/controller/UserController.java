@@ -3,6 +3,8 @@ package com.eleven.boke.controller;
 import com.eleven.boke.pojo.Do.BokeSysViewDo;
 import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.UserQuery;
+import com.eleven.boke.pojo.query.UserViewQuery;
+import com.eleven.boke.pojo.vo.UserViewListVo;
 import com.eleven.boke.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/getUserView")
-    public ResultEntity<List<BokeSysViewDo>> getUserView() {
-        return userService.getUserView();
+    public ResultEntity<List<UserViewListVo>> getUserView(@RequestBody UserViewQuery userViewQuery) {
+        return userService.getUserView(userViewQuery);
     }
 
 }

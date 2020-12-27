@@ -7,7 +7,12 @@ import com.eleven.boke.enums.ArticleInfoEnum;
 import com.eleven.boke.enums.ArticleSortEnum;
 import com.eleven.boke.handle.BaseEnumTypeHandler;
 import com.eleven.boke.mapper.BokeArticleInfoDoMapper;
+import com.eleven.boke.mapper.BokeSysViewDoMapper;
+import com.eleven.boke.mapper.BokeThumbsListDoMapper;
 import com.eleven.boke.pojo.Do.BokeArticleInfoDo;
+import com.eleven.boke.pojo.Do.BokeSysViewDo;
+import com.eleven.boke.pojo.Do.BokeThumbsListDo;
+import com.eleven.boke.pojo.vo.GetArticleInfoVo;
 import com.eleven.boke.util.BeanUtils;
 import com.github.pagehelper.PageInfo;
 import com.eleven.boke.pojo.entity.ResultEntity;
@@ -21,10 +26,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author : eleven
@@ -37,6 +40,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private BokeArticleInfoDoMapper bokeArticleInfoDoMapper;
+
+
+    @Autowired
+    private BokeSysViewDoMapper bokeSysViewDoMapper;
+
+
+    @Autowired
+    private BokeThumbsListDoMapper bokeThumbsListDoMapper;
+
     private ResultUtil resultUtil = new ResultUtil();
 
     /**
@@ -50,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     @Override
     public ResultEntity<ArticleVo> addOrUpdate(ArticleVo articleVo) {
-        if (articleVo.getTitle() == null || articleVo.getContent() == null || articleVo.getSummary() == null
+        if (articleVo.getTitle() == null || articleVo.getSummary() == null
         || articleVo.getIsTop() == null || articleVo.getSortId() == null) {
             return resultUtil.error(ArticleInfoEnum.ARTICLE_PARAMS_NULL);
         }
@@ -64,6 +76,12 @@ public class ArticleServiceImpl implements ArticleService {
 
         bokeArticleInfoDo.setSortId(new BigDecimal(articleSortEnum.getCode()).longValue());
         bokeArticleInfoDo.setContent(articleVo.getContent());
+        bokeArticleInfoDo.setHtml(articleVo.getHtml());
+        bokeArticleInfoDo.setHeadDescription(articleVo.getHeadDescription());
+        bokeArticleInfoDo.setHeadKeywords(articleVo.getHeadKeywords());
+        bokeArticleInfoDo.setHeadTitle(articleVo.getHeadTitle());
+        bokeArticleInfoDo.setAuthor(articleVo.getAuthor());
+
         if (articleVo.getId() != null) {
             bokeArticleInfoDo.setId(articleVo.getId());
             bokeArticleInfoDoMapper.updateByPrimaryKey(bokeArticleInfoDo);
@@ -97,8 +115,81 @@ public class ArticleServiceImpl implements ArticleService {
     public ResultEntity<PageResult<ArticleVo>> getArticleList(ArticleListQuery articleListQuery) {
 
         List<BokeArticleInfoDo> articleList = bokeArticleInfoDoMapper.pageQuery(articleListQuery);
-        PageInfo page = new PageInfo(articleList);
-//        List<ArticleVo> customerVOS = BeanUtils.copyCollection(articleList, ArticleVo.class);
+
+        List<ArticleVo> articleVos = BeanUtils.copyCollection(articleList, ArticleVo.class);
+
+        for (ArticleVo in:
+             articleVos) {
+            if (articleListQuery.getIp() != null) {
+                List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(articleListQuery.getIp(), in.getId(), 1l);
+                if (bokeThumbsListDos.size() > 0) {
+                    in.setThumdsStatus(bokeThumbsListDos.get(0).getStatus());
+                }
+            }
+            List<BokeThumbsListDo> thumbsListDoList = bokeThumbsListDoMapper.selectIdArticleList(in.getId(), 1l);
+            in.setThumdsSum(new Long(thumbsListDoList.size()));
+
+            List<BokeSysViewDo> bokeSysViewDos = bokeSysViewDoMapper.selectByArticleId(in.getId());
+            String lookNum = Integer.toString(bokeSysViewDos.size());
+            in.setLookNum(Long.parseLong(lookNum));
+        }
+        PageInfo page = new PageInfo(articleVos);
         return resultUtil.success(page);
+    }
+
+    public ResultEntity<ArticleVo>  getArticleInfo(GetArticleInfoVo getArticleInfoVo) {
+        BokeArticleInfoDo bokeArticleInfoDo = bokeArticleInfoDoMapper.selectByPrimaryKey(getArticleInfoVo.getId());
+        ArticleVo articleVo = new ArticleVo();
+        if (bokeArticleInfoDo.getId() != null) {
+            articleVo.setId(bokeArticleInfoDo.getId());
+        }
+        if (bokeArticleInfoDo.getContent() != null) {
+            articleVo.setContent(bokeArticleInfoDo.getContent());
+        }
+        if (bokeArticleInfoDo.getGmtCreated() != null) {
+            String authTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(bokeArticleInfoDo.getGmtCreated());
+            articleVo.setGmt_created(authTime);
+        }
+        if (bokeArticleInfoDo.getTitle() != null) {
+            articleVo.setTitle(bokeArticleInfoDo.getTitle());
+        }
+        if (bokeArticleInfoDo.getHtml() != null) {
+            articleVo.setHtml(bokeArticleInfoDo.getHtml());
+        }
+        if (bokeArticleInfoDo.getPicture() != null) {
+            articleVo.setPicture(bokeArticleInfoDo.getPicture());
+        }
+        if (bokeArticleInfoDo.getSortId() != null) {
+            articleVo.setSortId(bokeArticleInfoDo.getSortId());
+        }
+        if (bokeArticleInfoDo.getSummary() != null) {
+            articleVo.setSummary(bokeArticleInfoDo.getSummary());
+        }
+
+        if (bokeArticleInfoDo.getHeadTitle() != null) {
+            articleVo.setHeadTitle(bokeArticleInfoDo.getHeadTitle());
+        }
+        if (bokeArticleInfoDo.getHeadDescription() != null) {
+            articleVo.setHeadDescription(bokeArticleInfoDo.getHeadDescription());
+        }
+        if (bokeArticleInfoDo.getHeadKeywords() != null) {
+            articleVo.setHeadKeywords(bokeArticleInfoDo.getHeadKeywords());
+        }
+        if (bokeArticleInfoDo.getAuthor() != null) {
+            articleVo.setAuthor(bokeArticleInfoDo.getAuthor());
+        }
+        if (getArticleInfoVo.getIp() != null) {
+            List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(getArticleInfoVo.getIp(), bokeArticleInfoDo.getId(), 1l);
+            if (bokeThumbsListDos.size() > 0) {
+                articleVo.setThumdsStatus(bokeThumbsListDos.get(0).getStatus());
+            }
+        }
+        List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleList(bokeArticleInfoDo.getId(), 1l);
+        articleVo.setThumdsSum(new Long(bokeThumbsListDos.size()));
+
+        List<BokeSysViewDo> bokeSysViewDos = bokeSysViewDoMapper.selectByArticleId(getArticleInfoVo.getId());
+        String lookNum = Integer.toString(bokeSysViewDos.size());
+        articleVo.setLookNum(Long.parseLong(lookNum));
+        return resultUtil.success(articleVo);
     }
 }
