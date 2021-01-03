@@ -45,5 +45,10 @@ public class ArticleController {
     public ResultEntity<BokeThumbsVo> addThumbsArticle(@RequestBody BokeThumbsQuery bokeThumbsQuery) {
         return bokeThumbsService.addThumbsArticle(bokeThumbsQuery);
     }
+
+    @PostMapping(value = "/getHotArticle")
+    public ResultEntity<ArticleVo> getHotArticle() {
+        return articleService.getHotArticle();
+    }
 }
 

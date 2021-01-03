@@ -9,10 +9,32 @@ import java.io.Serializable;
  */
 public class AddMessageQuery implements Serializable {
     private String content;
+    private String agent;
+
+    private String headPicture;
 
     private String email;
     private String name;
     private String ip;
+
+
+    public String getAgent() {
+        return agent;
+    }
+
+
+    public String getHeadPicture() {
+        return headPicture;
+    }
+
+    public void setHeadPicture(String headPicture) {
+        this.headPicture = headPicture;
+    }
+
+    public void setAgent(String agent) {
+        this.agent = agent;
+    }
+
 
     public String getContent() {
         return content;

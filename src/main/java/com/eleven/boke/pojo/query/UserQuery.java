@@ -20,6 +20,17 @@ public class UserQuery implements Serializable {
      */
     private Long articleId;
 
+
+    private Long userid;
+
+
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
     public Long getArticleId() {
         return articleId;
     }

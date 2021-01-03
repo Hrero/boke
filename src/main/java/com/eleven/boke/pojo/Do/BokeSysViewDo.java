@@ -16,6 +16,16 @@ public class BokeSysViewDo {
 
     private Long sortId;
 
+    private Long userid;
+
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
+
     public Long getSortId() {
         return sortId;
     }

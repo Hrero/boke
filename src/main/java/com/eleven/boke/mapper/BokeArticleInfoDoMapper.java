@@ -1,7 +1,12 @@
 package com.eleven.boke.mapper;
 
 import com.eleven.boke.pojo.Do.BokeArticleInfoDo;
+import com.eleven.boke.pojo.Do.BokeSysViewDo;
+import com.eleven.boke.pojo.Dto.ArticleHotDto;
 import com.eleven.boke.pojo.query.ArticleListQuery;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -47,4 +52,10 @@ public interface BokeArticleInfoDoMapper {
      * @mbg.generated Wed Nov 18 11:04:38 CST 2020
      */
     int updateByPrimaryKey(BokeArticleInfoDo record);
+
+    @Select("SELECT count(1) as 'hot', vi.article_id as 'id', inf.title as 'title'  FROM boke_sys_view  vi\n" +
+            "    JOIN boke_article_info inf ON inf.id = vi.article_id\n" +
+            "    GROUP BY vi.article_id ORDER BY COUNT(1) DESC LIMIT 10")
+    @ResultMap("BaseResultMap")
+    List<ArticleHotDto> selectHotArticle();
 }

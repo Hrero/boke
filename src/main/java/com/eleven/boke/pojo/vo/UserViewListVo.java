@@ -16,6 +16,16 @@ public class UserViewListVo implements Serializable {
 
     private String gmtCreated;
 
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public String getSortId() {
         return sortId;
     }

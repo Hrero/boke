@@ -7,11 +7,15 @@ import com.eleven.boke.enums.ArticleInfoEnum;
 import com.eleven.boke.enums.ArticleSortEnum;
 import com.eleven.boke.handle.BaseEnumTypeHandler;
 import com.eleven.boke.mapper.BokeArticleInfoDoMapper;
+import com.eleven.boke.mapper.BokeClassTreeDoMapper;
 import com.eleven.boke.mapper.BokeSysViewDoMapper;
 import com.eleven.boke.mapper.BokeThumbsListDoMapper;
 import com.eleven.boke.pojo.Do.BokeArticleInfoDo;
+import com.eleven.boke.pojo.Do.BokeClassTreeDo;
 import com.eleven.boke.pojo.Do.BokeSysViewDo;
 import com.eleven.boke.pojo.Do.BokeThumbsListDo;
+import com.eleven.boke.pojo.Dto.ArticleHotDto;
+import com.eleven.boke.pojo.vo.BokeClassTreeVo;
 import com.eleven.boke.pojo.vo.GetArticleInfoVo;
 import com.eleven.boke.util.BeanUtils;
 import com.github.pagehelper.PageInfo;
@@ -49,6 +53,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private BokeThumbsListDoMapper bokeThumbsListDoMapper;
 
+    @Autowired
+    private BokeClassTreeDoMapper bokeClassTreeDoMapper;
+
     private ResultUtil resultUtil = new ResultUtil();
 
     /**
@@ -81,6 +88,8 @@ public class ArticleServiceImpl implements ArticleService {
         bokeArticleInfoDo.setHeadKeywords(articleVo.getHeadKeywords());
         bokeArticleInfoDo.setHeadTitle(articleVo.getHeadTitle());
         bokeArticleInfoDo.setAuthor(articleVo.getAuthor());
+
+        bokeArticleInfoDo.setPicture(articleVo.getPicture());
 
         if (articleVo.getId() != null) {
             bokeArticleInfoDo.setId(articleVo.getId());
@@ -191,5 +200,53 @@ public class ArticleServiceImpl implements ArticleService {
         String lookNum = Integer.toString(bokeSysViewDos.size());
         articleVo.setLookNum(Long.parseLong(lookNum));
         return resultUtil.success(articleVo);
+    }
+
+    public ResultEntity<BokeClassTreeVo> getClassList() {
+        List<BokeClassTreeDo> bokeClassTreeDos = bokeClassTreeDoMapper.selectMenuList();
+        List<BokeClassTreeVo> BokeClassTreeVos = BeanUtils.copyCollection(bokeClassTreeDos, BokeClassTreeVo.class);
+        for (BokeClassTreeVo in:
+                BokeClassTreeVos) {
+            List<BokeClassTreeDo> bokeClassTreeDos1 = bokeClassTreeDoMapper.selectByPidId(in.getId());
+            List<BokeClassTreeVo> BokeClassTreeVos1 = BeanUtils.copyCollection(bokeClassTreeDos1, BokeClassTreeVo.class);
+
+            if (BokeClassTreeVos1.size() > 0) {
+                in.setIsLeaf(false);
+                in.setChildren(BokeClassTreeVos1);
+                getClassChild(BokeClassTreeVos1);
+            } else {
+                in.setIsLeaf(true);
+            }
+            in.setLabel(in.getName());
+            in.setValue(in.getId());
+        }
+        return resultUtil.success(BokeClassTreeVos);
+    };
+    public void getClassChild(List<BokeClassTreeVo> list) {
+        for (BokeClassTreeVo in:
+                list) {
+            List<BokeClassTreeDo> bokeClassTreeDos1 = bokeClassTreeDoMapper.selectPathList(DEFAULT_DEPT_PATH_SPLIT + in.getId());
+            List<BokeClassTreeVo> BokeClassTreeVos1 = BeanUtils.copyCollection(bokeClassTreeDos1, BokeClassTreeVo.class);
+
+            if (BokeClassTreeVos1.size() > 0) {
+                in.setChildren(BokeClassTreeVos1);
+                getClassChild(BokeClassTreeVos1);
+                in.setIsLeaf(false);
+            } else {
+                in.setIsLeaf(true);
+            }
+            in.setLabel(in.getName());
+            in.setValue(in.getId());
+        }
+    }
+
+    public ResultEntity<ArticleVo> getHotArticle() {
+        List<ArticleHotDto> articleHotDto = bokeArticleInfoDoMapper.selectHotArticle();
+        if (articleHotDto.size() > 0) {
+            return resultUtil.success(articleHotDto);
+        } else {
+            return resultUtil.success(new ArrayList<>());
+        }
+
     }
 }

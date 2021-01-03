@@ -4,9 +4,9 @@ import com.eleven.boke.base.BaseEnum;
 
 public enum ArticleSortEnum implements BaseEnum {
     SORT_DEVELOPMENT(1, "开发者手册"),
-    SORT_JAVA(2, "JAVA"),
-    SORT_JS(3, "JS"),
-    SORT_MUSIC(4, "音乐")
+    SORT_JAVA(2, "专题"),
+//    SORT_JS(3, "JS"),
+//    SORT_MUSIC(4, "音乐")
     ;
 
     private int code;

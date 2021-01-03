@@ -2,6 +2,7 @@ package com.eleven.boke.controller;
 
 import com.eleven.boke.enums.ArticleSortEnum;
 import com.eleven.boke.pojo.entity.ResultEntity;
+import com.eleven.boke.pojo.vo.BokeClassTreeVo;
 import com.eleven.boke.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,4 +26,10 @@ public class SortListController {
     public ResultEntity<ArticleSortEnum> getSortList() {
         return articleService.getSortList();
     }
+
+    @GetMapping(value = "/getClassList")
+    public ResultEntity<BokeClassTreeVo> getClassList() {
+        return articleService.getClassList();
+    }
+
 }

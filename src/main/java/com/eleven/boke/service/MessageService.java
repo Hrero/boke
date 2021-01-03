@@ -1,8 +1,14 @@
 package com.eleven.boke.service;
 
 import com.eleven.boke.pojo.Do.BokeArticleMessageDo;
+import com.eleven.boke.pojo.Do.BokeCommentListDo;
 import com.eleven.boke.pojo.entity.ResultEntity;
+import com.eleven.boke.pojo.query.AddCommentListQuery;
 import com.eleven.boke.pojo.query.AddMessageQuery;
+import com.eleven.boke.pojo.query.GetBokeCommentListQuery;
+import com.eleven.boke.pojo.vo.BokeCommentListVo;
+
+import java.util.List;
 
 /**
  * @author : eleven
@@ -13,4 +19,8 @@ public interface MessageService {
     ResultEntity<BokeArticleMessageDo> addMessage(AddMessageQuery addMessageQuery);
 
     ResultEntity<BokeArticleMessageDo> getMessageList();
+
+    ResultEntity<BokeCommentListDo> addCommentList(AddCommentListQuery addCommentListQuery);
+
+    ResultEntity<List<BokeCommentListVo>> getCommentList(GetBokeCommentListQuery getBokeCommentListQuery);
 }

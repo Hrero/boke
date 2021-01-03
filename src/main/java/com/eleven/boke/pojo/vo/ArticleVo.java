@@ -62,6 +62,10 @@ public class ArticleVo {
     private Long thumdsStatus;
 
 
+    /**
+     * @author: eleven
+     * @description: 点赞数量
+     */
     private Long thumdsSum;
 
     public Long getThumdsSum() {

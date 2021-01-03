@@ -8,7 +8,7 @@
     <result column="is_top" jdbcType="BIGINT" property="isTop" />
     <result column="traffic" jdbcType="INTEGER" property="traffic" />
     <result column="message_id" jdbcType="INTEGER" property="messageId" />
-    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="picture" jdbcType="LONGVARCHAR" property="picture" />
     <result column="sort_id" jdbcType="BIGINT" property="sortId" />
     <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
@@ -34,7 +34,7 @@
       content, html,head_title, head_keywords, head_description, author)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{isTop,jdbcType=BIT}, #{traffic,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, 
-      #{picture,jdbcType=VARCHAR}, #{sortId,jdbcType=INTEGER},
+      #{picture,jdbcType=LONGVARCHAR}, #{sortId,jdbcType=INTEGER},
       #{content,jdbcType=LONGVARCHAR}, #{html,jdbcType=LONGVARCHAR}, #{headTitle,jdbcType=VARCHAR}
       , #{headKeywords,jdbcType=VARCHAR}, #{headDescription,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR})
   </insert>
@@ -54,7 +54,7 @@
         message_id = #{messageId,jdbcType=INTEGER},
       </if>
       <if test="picture != null">
-        picture = #{picture,jdbcType=VARCHAR},
+        picture = #{picture,jdbcType=LONGVARCHAR},
       </if>
       <if test="sortId != null">
         sort_id = #{sortId,jdbcType=INTEGER},

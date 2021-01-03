@@ -6,11 +6,12 @@
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="article_id" jdbcType="BIGINT" property="articleId" />
     <result column="sort_id" jdbcType="BIGINT" property="sortId" />
+    <result column="userid" jdbcType="BIGINT" property="userid" />
     <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-      id, ip, article_id, sort_id, gmt_created, gmt_modified
+      id, ip, article_id, sort_id, userid,  gmt_created, gmt_modified
   </sql>
   <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeSysViewDo">
     insert into boke_sys_view
@@ -27,6 +28,9 @@
       <if test="sortId != null">
         sort_id,
       </if>
+      <if test="userid != null">
+        userid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -40,6 +44,9 @@
       </if>
       <if test="sortId != null">
         #{sortId,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>

@@ -16,10 +16,41 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeArticleMessageDo">
-    insert into boke_article_message (id, content, email, 
-      name, ip, is_effective)
-    values (#{id,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{isEffective,jdbcType=BIT})
+    insert into boke_article_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.eleven.boke.pojo.Do.BokeArticleMessageDo">
     update boke_article_message
@@ -38,5 +69,6 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, content, email, name, ip, is_effective, gmt_created, gmt_modified
     from boke_article_message
+    order by gmt_created DESC limit 5
   </select>
 </mapper>
