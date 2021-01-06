@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
                     userInfoVo.setHeadPicture(userInfoQuery.getHeadPicture());
                 }
                 bokeUserInfoDoMapper.insert(userInfoVo);
+                userInfoVo.setId(userInfoVo.getId());
                 return ResultUtil.success(userInfoVo);
             } else {
                 return ResultUtil.error(UserEnum.USER_NAME_AGAIN);

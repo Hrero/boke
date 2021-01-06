@@ -14,7 +14,7 @@
     <sql id="Base_Column_List">
       id, ip, email, nickname, agent, head_picture, gmt_created, gmt_modified
     </sql>
-    <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeUserInfoDo">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.eleven.boke.pojo.Do.BokeUserInfoDo">
         insert into boke_user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ip != null">

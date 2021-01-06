@@ -34,7 +34,7 @@ public class BokeThumbsServiceImpl implements BokeThumbsService {
 
         try {
             List<BokeThumbsListDo> bokeThumbsListDoList = bokeThumbsListDoMapper.selectIdArticleId(bokeThumbsQuery.getIp(), bokeThumbsQuery.getArticleId());
-            if ("0".equals(bokeThumbsListDoList.size())) {
+            if (bokeThumbsListDoList.size() == 0) {
                 bokeThumbsListDoMapper.insert(bokeThumbsVo);
             } else {
                 bokeThumbsVo.setId(bokeThumbsListDoList.get(0).getId());

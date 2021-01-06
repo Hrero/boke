@@ -81,13 +81,14 @@ public class ArticleServiceImpl implements ArticleService {
 
         ArticleSortEnum articleSortEnum = BaseEnumTypeHandler.getByCode(new Long(articleVo.getSortId()).intValue(), ArticleSortEnum.class);
 
-        bokeArticleInfoDo.setSortId(new BigDecimal(articleSortEnum.getCode()).longValue());
+        bokeArticleInfoDo.setSortId(articleVo.getSortId());
         bokeArticleInfoDo.setContent(articleVo.getContent());
         bokeArticleInfoDo.setHtml(articleVo.getHtml());
         bokeArticleInfoDo.setHeadDescription(articleVo.getHeadDescription());
         bokeArticleInfoDo.setHeadKeywords(articleVo.getHeadKeywords());
         bokeArticleInfoDo.setHeadTitle(articleVo.getHeadTitle());
         bokeArticleInfoDo.setAuthor(articleVo.getAuthor());
+
 
         bokeArticleInfoDo.setPicture(articleVo.getPicture());
 

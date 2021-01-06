@@ -146,8 +146,10 @@ public class MessageServiceImpl implements MessageService {
                 BokeUserInfoDo bokeUserInfoDo = bokeUserInfoDoMapper.selectById(in.getUserid());
                 if (bokeUserInfoDo != null) {
                     in.setUserInfo(bokeUserInfoDo);
+                } else {
+                    in.setChild(new ArrayList<>());
+                    continue;
                 }
-
                 BokeArticleInfoDo bokeArticleInfoDo = bokeArticleInfoDoMapper.selectByPrimaryKey(getBokeCommentListQuery.getArticleId());
                 if (bokeArticleInfoDo.getAuthor().equals(in.getUserInfo().getNickname())) {
                     in.setIsAuthor(1);
@@ -187,7 +189,12 @@ public class MessageServiceImpl implements MessageService {
                     String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(at.getGmtCreated());
                     at.setCreateDate(date);
                 }
-                in.setChild(bokeCoLiVos);
+                if (bokeCoLiVos.size() > 0) {
+                    in.setChild(bokeCoLiVos);
+                } else {
+                    in.setChild(new ArrayList<>());
+                }
+
             }
         }
 
