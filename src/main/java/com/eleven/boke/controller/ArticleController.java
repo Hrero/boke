@@ -12,6 +12,7 @@ import com.eleven.boke.service.BokeThumbsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,14 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleController {
 
     private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
+
+    @Value("${spring.profiles.active}")
+    private String env;
+
+    @Value("${spring.datasource.url}")
+    private String url;
+
 
     @Autowired
     private ArticleService articleService;
@@ -38,6 +47,8 @@ public class ArticleController {
 
     @PostMapping(value = "/getArticleList")
     public ResultEntity<PageResult<ArticleVo>> getArticleList(@RequestBody ArticleListQuery articleListQuery) {
+        System.out.println(env);
+        System.out.println(url);
         return articleService.getArticleList(articleListQuery);
     }
 

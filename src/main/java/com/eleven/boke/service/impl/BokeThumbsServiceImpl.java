@@ -10,6 +10,7 @@ import com.eleven.boke.pojo.query.BokeThumbsQuery;
 import com.eleven.boke.pojo.vo.BokeThumbsVo;
 import com.eleven.boke.service.BokeThumbsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class BokeThumbsServiceImpl implements BokeThumbsService {
         bokeThumbsVo.setIp(bokeThumbsQuery.getIp());
         bokeThumbsVo.setStatus(bokeThumbsQuery.getStatus());
         bokeThumbsVo.setArticleId(bokeThumbsQuery.getArticleId());
-
+        System.out.println();
         try {
             List<BokeThumbsListDo> bokeThumbsListDoList = bokeThumbsListDoMapper.selectIdArticleId(bokeThumbsQuery.getIp(), bokeThumbsQuery.getArticleId());
             if (bokeThumbsListDoList.size() == 0) {
