@@ -14,7 +14,15 @@ public class BokeUserInfoDo {
     private String nickname;
     private String agent;
     private String headPicture;
+    private String head_picture;
 
+    public String getHead_picture() {
+        return head_picture;
+    }
+
+    public void setHead_picture(String head_picture) {
+        this.head_picture = head_picture;
+    }
 
     private Date gmtCreated;
     private Date gmtModified;

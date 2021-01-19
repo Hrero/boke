@@ -58,6 +58,12 @@
             <artifactId>mybatis-generator-core</artifactId>
             <version>1.3.4</version>
         </dependency>
+        <!-- data -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- page -->
         <dependency>

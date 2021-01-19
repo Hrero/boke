@@ -23,7 +23,7 @@
         select
         <include refid="Base_Column_List"/>
         from boke_class_tree
-        where pid is null and path is null
+        where pid is null and path is null and status != 0
     </select>
 
     <select id="selectPathList" resultMap="BaseResultMap">
@@ -37,7 +37,7 @@
         select
         <include refid="Base_Column_List"/>
         from boke_class_tree
-        where pid = #{pid, jdbcType=BIGINT}
+        where pid = #{pid, jdbcType=BIGINT} and status != 0
     </select>
 
 

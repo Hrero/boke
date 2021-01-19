@@ -144,6 +144,7 @@ public class UserServiceImpl implements UserService {
             userInfoVo.setIp(bokeUserInfoDo.getIp());
             userInfoVo.setAgent(bokeUserInfoDo.getAgent());
             userInfoVo.setEmail(bokeUserInfoDo.getEmail());
+            userInfoVo.setHeadPicture(bokeUserInfoDo.getHead_picture());
             return ResultUtil.success(userInfoVo);
         } else {
             UserInfoVo userInfoVo = new UserInfoVo();
