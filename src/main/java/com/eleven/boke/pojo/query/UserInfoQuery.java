@@ -10,9 +10,11 @@ import java.util.Date;
  */
 public class UserInfoQuery implements Serializable {
 
-    private Long id;
-    private String ip;
+    private Long userid;
+
     private String email;
+    private String phone;
+
     private String nickname;
     private String agent;
 
@@ -21,28 +23,28 @@ public class UserInfoQuery implements Serializable {
     private Date gmt_created;
     private Date gmt_modified;
 
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
     public String getHeadPicture() {
         return headPicture;
     }
 
     public void setHeadPicture(String headPicture) {
         this.headPicture = headPicture;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
     public String getEmail() {

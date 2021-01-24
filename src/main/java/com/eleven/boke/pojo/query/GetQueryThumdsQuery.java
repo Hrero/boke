@@ -7,10 +7,12 @@ import java.io.Serializable;
 /**
  * @author : eleven
  * @description: TODO
- * @date : 2020/12/29 17:35
+ * @date : 2021/1/23 15:10
  */
+
 @Data
-public class GetBokeCommentListQuery implements Serializable {
+public class GetQueryThumdsQuery implements Serializable {
+    private Long userid;
 
     private Long articleId;
 

@@ -9,15 +9,24 @@ import java.util.Date;
  */
 public class BokeUserInfoDo {
     private Long id;
-    private String ip;
     private String email;
     private String nickname;
     private String agent;
+    private String phone;
+
     private String headPicture;
     private String head_picture;
 
     public String getHead_picture() {
         return head_picture;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setHead_picture(String head_picture) {
@@ -57,14 +66,6 @@ public class BokeUserInfoDo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
     public String getEmail() {

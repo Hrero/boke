@@ -1,7 +1,10 @@
 package com.eleven.boke.mapper;
 
 import com.eleven.boke.pojo.Do.BokeCommentListDo;
+import com.eleven.boke.pojo.Do.BokeThumbsListDo;
+import com.eleven.boke.pojo.Dto.ArticleHotDto;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -18,5 +21,6 @@ public interface BokeCommentListDoMapper {
     List<BokeCommentListDo> selectParentbyArticleId(@Param("articleId") Long articleId);
 
     List<BokeCommentListDo> selectNomalListbyArticleId(@Param("articleId") Long articleId, @Param("parentCommentId") Long parentCommentId);
+
 
 }

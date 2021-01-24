@@ -7,6 +7,7 @@ import com.eleven.boke.pojo.query.BokeThumbsQuery;
 import com.eleven.boke.pojo.vo.BokeThumbsVo;
 import com.eleven.boke.pojo.vo.GetArticleInfoVo;
 import com.eleven.boke.pojo.vo.ArticleVo;
+import com.eleven.boke.pojo.vo.UserArticleThumbsVo;
 import com.eleven.boke.service.ArticleService;
 import com.eleven.boke.service.BokeThumbsService;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/article")
@@ -61,5 +64,11 @@ public class ArticleController {
     public ResultEntity<ArticleVo> getHotArticle() {
         return articleService.getHotArticle();
     }
+
+    @PostMapping(value = "/getUserArticeleThumbs")
+    public ResultEntity<List<UserArticleThumbsVo>> getUserArticeleThumbs(@RequestBody BokeThumbsQuery bokeThumbsQuery) {
+        return bokeThumbsService.getUserArticeleThumbs(bokeThumbsQuery);
+    }
+
 }
 

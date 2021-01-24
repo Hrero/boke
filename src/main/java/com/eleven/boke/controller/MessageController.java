@@ -7,7 +7,9 @@ import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.AddCommentListQuery;
 import com.eleven.boke.pojo.query.AddMessageQuery;
 import com.eleven.boke.pojo.query.GetBokeCommentListQuery;
+import com.eleven.boke.pojo.query.GetQueryThumdsQuery;
 import com.eleven.boke.pojo.vo.BokeCommentListVo;
+import com.eleven.boke.pojo.vo.BokeCommentThumdsVo;
 import com.eleven.boke.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +50,11 @@ public class MessageController {
     @PostMapping(value = "/getCommentList")
     public ResultEntity<List<BokeCommentListVo>> getCommentList(@RequestBody GetBokeCommentListQuery getBokeCommentListQuery) {
         return messageService.getCommentList(getBokeCommentListQuery);
+    }
+
+    @PostMapping(value = "/getCommentThumds")
+    public ResultEntity<BokeCommentThumdsVo> getCommentThumds(@RequestBody GetQueryThumdsQuery getQueryThumdsQuery) {
+        return messageService.getCommentThumds(getQueryThumdsQuery);
     }
 
 

@@ -14,11 +14,21 @@ public class UserInfoVo implements Serializable {
     private String email;
     private String nickname;
     private String agent;
+    private String phone;
+
+
     private String headPicture;
 
     private Date gmt_created;
     private Date gmt_modified;
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public String getHeadPicture() {
         return headPicture;
     }

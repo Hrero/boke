@@ -3,7 +3,6 @@
 <mapper namespace="com.eleven.boke.mapper.BokeSysViewDoMapper">
   <resultMap id="BaseResultMap" type="com.eleven.boke.pojo.Do.BokeSysViewDo">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="article_id" jdbcType="BIGINT" property="articleId" />
     <result column="sort_id" jdbcType="BIGINT" property="sortId" />
     <result column="userid" jdbcType="BIGINT" property="userid" />
@@ -11,16 +10,13 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-      id, ip, article_id, sort_id, userid,  gmt_created, gmt_modified
+      id, article_id, sort_id, userid,  gmt_created, gmt_modified
   </sql>
   <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeSysViewDo">
     insert into boke_sys_view
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="ip != null">
-        ip,
       </if>
       <if test="articleId != null">
         article_id,
@@ -35,9 +31,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="ip != null">
-        #{ip,jdbcType=VARCHAR},
       </if>
       <if test="articleId != null">
         #{articleId,jdbcType=BIGINT},
@@ -68,7 +61,7 @@
     where article_id = #{articleId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, ip, gmt_created, gmt_modified, article_id
+    select id, gmt_created, gmt_modified, article_id
     from boke_sys_view
   </select>
   <select id="selectArticleLimit" resultMap="BaseResultMap">

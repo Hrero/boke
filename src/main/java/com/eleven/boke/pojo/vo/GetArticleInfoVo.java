@@ -10,14 +10,14 @@ import java.io.Serializable;
 public class GetArticleInfoVo implements Serializable {
     private Long id;
 
-    private String ip;
+    private Long userid;
 
-    public String getIp() {
-        return ip;
+    public Long getUserid() {
+        return userid;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public Long getId() {

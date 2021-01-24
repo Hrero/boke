@@ -23,7 +23,7 @@ public interface BokeSysViewDoMapper {
 
     int updateByPrimaryKey(BokeSysViewDo record);
 
-    @Select("SELECT * FROM boke_sys_view WHERE gmt_created > DATE_SUB(now(),INTERVAL 20 MINUTE) and ip = #{ip} and article_id = #{articleId}")
+    @Select("SELECT * FROM boke_sys_view WHERE gmt_created > DATE_SUB(now(),INTERVAL 20 MINUTE) and userid = #{userid} and article_id = #{articleId}")
     @ResultMap("BaseResultMap")
-    List<BokeSysViewDo> selectTimeReadyIn(@Param("ip") String ip, @Param("articleId") Long articleId);
+    List<BokeSysViewDo> selectTimeReadyIn(@Param("userid") Long userid, @Param("articleId") Long articleId);
 }

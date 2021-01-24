@@ -6,8 +6,6 @@ public class BokeSysViewDo {
 
     private Long id;
 
-    private String ip;
-
     private Date gmtCreated;
 
     private Date gmtModified;
@@ -48,14 +46,6 @@ public class BokeSysViewDo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
     public Date getGmtCreated() {

@@ -8,11 +8,6 @@ import java.io.Serializable;
  * @date : 2020/12/11 23:57
  */
 public class UserQuery implements Serializable {
-    /**
-     * @author: eleven
-     * @description: 用户ip唯一标识
-     */
-    private String ip;
 
     /**
      * @author: eleven
@@ -37,14 +32,6 @@ public class UserQuery implements Serializable {
 
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
 

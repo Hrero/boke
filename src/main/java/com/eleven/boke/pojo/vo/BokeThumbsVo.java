@@ -14,8 +14,18 @@ public class BokeThumbsVo implements Serializable {
     private String ip;
     private Long status;
     private Long articleId;
+    private Long userid;
+
     private Date gmtCreated;
     private Date gmtModified;
+
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
 
     public Long getStatus() {
         return status;

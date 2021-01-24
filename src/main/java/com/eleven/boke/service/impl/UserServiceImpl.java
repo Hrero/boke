@@ -50,17 +50,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BokeUserInfoDoMapper bokeUserInfoDoMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public ResultEntity<BokeSysViewDo> addUserView(UserQuery userQuery) {
         BokeSysViewDo bokeSysViewDo = new BokeSysViewDo();
-        bokeSysViewDo.setIp(userQuery.getIp());
+        bokeSysViewDo.setUserid(userQuery.getUserid());
         bokeSysViewDo.setArticleId(userQuery.getArticleId());
         BokeArticleInfoDo bokeArticleInfoDo = bokeArticleInfoDoMapper.selectByPrimaryKey(userQuery.getArticleId());
         bokeSysViewDo.setSortId(bokeArticleInfoDo.getSortId());
 
         bokeSysViewDo.setUserid(userQuery.getUserid());
 
-        List<BokeSysViewDo> isIn = bokeSysViewDoMapper.selectTimeReadyIn(userQuery.getIp(), userQuery.getArticleId());
+        List<BokeSysViewDo> isIn = bokeSysViewDoMapper.selectTimeReadyIn(userQuery.getUserid(), userQuery.getArticleId());
         if (isIn.size() == 0) {
             bokeSysViewDoMapper.insert(bokeSysViewDo);
         }
@@ -75,7 +78,6 @@ public class UserServiceImpl implements UserService {
         bokeSysViewDos) {
             UserViewListVo userViewListVo = new UserViewListVo();
             userViewListVo.setId(in.getId());
-            userViewListVo.setIp(in.getIp());
             if (in.getSortId() != null) {
                 userViewListVo.setSortId(in.getSortId().toString());
             }
@@ -96,55 +98,49 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultEntity<UserInfoVo> addUser(UserInfoQuery userInfoQuery) {
-        if (userInfoQuery.getAgent() == null || userInfoQuery.getEmail() == null || userInfoQuery.getIp() == null || userInfoQuery.getNickname() == null) {
+        if (userInfoQuery.getAgent() == null || userInfoQuery.getEmail() == null || userInfoQuery.getNickname() == null) {
             return ResultUtil.error(UserEnum.USER_NULL_INFO);
         }
 
-        List<BokeUserInfoDo> bokeUserInfoDos = bokeUserInfoDoMapper.selectIdAgent(userInfoQuery.getIp(), userInfoQuery.getAgent());
-
-        if(bokeUserInfoDos.size() == 0) {
-            BokeUserInfoDo bokeUserInfoDo = bokeUserInfoDoMapper.selectNickName(userInfoQuery.getNickname());
-            if (bokeUserInfoDo == null) {
-                UserInfoVo userInfoVo = new UserInfoVo();
-                if (userInfoQuery.getAgent() != null) {
-                    userInfoVo.setAgent(userInfoQuery.getAgent());
-                }
-                if (userInfoQuery.getEmail() != null) {
-                    userInfoVo.setEmail(userInfoQuery.getEmail());
-                }
-                if (userInfoQuery.getIp() != null) {
-                    userInfoVo.setIp(userInfoQuery.getIp());
-                }
-                if (userInfoQuery.getNickname() != null) {
-                    userInfoVo.setNickname(userInfoQuery.getNickname());
-                }
-                if (userInfoQuery.getHeadPicture() != null) {
-                    userInfoVo.setHeadPicture(userInfoQuery.getHeadPicture());
-                }
-                bokeUserInfoDoMapper.insert(userInfoVo);
-                userInfoVo.setId(userInfoVo.getId());
-                return ResultUtil.success(userInfoVo);
-            } else {
-                return ResultUtil.error(UserEnum.USER_NAME_AGAIN);
+        List<BokeUserInfoDo> bokeUserInfoDo = bokeUserInfoDoMapper.selectNickName(userInfoQuery.getNickname());
+        if (bokeUserInfoDo.size() == 0) {
+            UserInfoVo userInfoVo = new UserInfoVo();
+            if (userInfoQuery.getAgent() != null) {
+                userInfoVo.setAgent(userInfoQuery.getAgent());
             }
-
+            if (userInfoQuery.getEmail() != null) {
+                userInfoVo.setEmail(userInfoQuery.getEmail());
+            }
+            if (userInfoQuery.getNickname() != null) {
+                userInfoVo.setNickname(userInfoQuery.getNickname());
+            }
+            if (userInfoQuery.getHeadPicture() != null) {
+                userInfoVo.setHeadPicture(userInfoQuery.getHeadPicture());
+            }
+            if (userInfoQuery.getPhone() != null) {
+                userInfoVo.setPhone(userInfoQuery.getPhone());
+            }
+            bokeUserInfoDoMapper.insert(userInfoVo);
+            userInfoVo.setId(userInfoVo.getId());
+            return ResultUtil.success(userInfoVo);
         } else {
-            return ResultUtil.error(UserEnum.USER_READY_IN_USER_VIEW);
+            GetUserInfoQuery getUserInfoQuery = new GetUserInfoQuery();
+            getUserInfoQuery.setNickname(userInfoQuery.getNickname());
+            return userService.getUserInfo(getUserInfoQuery);
         }
-
     }
 
     @Override
     public ResultEntity<UserInfoVo> getUserInfo(GetUserInfoQuery getUserInfoQuery) {
-        BokeUserInfoDo bokeUserInfoDo = bokeUserInfoDoMapper.selectByAgentIp(getUserInfoQuery.getIp(), getUserInfoQuery.getAgent());
-        if (bokeUserInfoDo != null) {
+        List<BokeUserInfoDo> bokeUserInfoDo = bokeUserInfoDoMapper.selectNickName(getUserInfoQuery.getNickname());
+        if (bokeUserInfoDo.size() > 0) {
             UserInfoVo userInfoVo = new UserInfoVo();
-            userInfoVo.setNickname(bokeUserInfoDo.getNickname());
-            userInfoVo.setId(bokeUserInfoDo.getId());
-            userInfoVo.setIp(bokeUserInfoDo.getIp());
-            userInfoVo.setAgent(bokeUserInfoDo.getAgent());
-            userInfoVo.setEmail(bokeUserInfoDo.getEmail());
-            userInfoVo.setHeadPicture(bokeUserInfoDo.getHead_picture());
+            userInfoVo.setNickname(bokeUserInfoDo.get(0).getNickname());
+            userInfoVo.setId(bokeUserInfoDo.get(0).getId());
+            userInfoVo.setPhone(bokeUserInfoDo.get(0).getPhone());
+            userInfoVo.setAgent(bokeUserInfoDo.get(0).getAgent());
+            userInfoVo.setEmail(bokeUserInfoDo.get(0).getEmail());
+            userInfoVo.setHeadPicture(bokeUserInfoDo.get(0).getHead_picture());
             return ResultUtil.success(userInfoVo);
         } else {
             UserInfoVo userInfoVo = new UserInfoVo();

@@ -9,7 +9,15 @@ import java.io.Serializable;
  */
 public class BokeThumbsQuery implements Serializable {
     private Long articleId;
-    private String ip;
+    private Long userid;
+
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
 
     /**
      * @author: eleven
@@ -31,14 +39,6 @@ public class BokeThumbsQuery implements Serializable {
 
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
 

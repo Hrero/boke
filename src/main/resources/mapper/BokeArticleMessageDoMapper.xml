@@ -5,8 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="is_effective" jdbcType="BIGINT" property="isEffective" />
     <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
@@ -21,25 +20,22 @@
       <if test="id != null">
         id,
       </if>
-      <if test="ip != null">
-        ip,
-      </if>
       <if test="content != null">
         content,
       </if>
       <if test="email != null">
         email,
       </if>
-      <if test="name != null">
-        name,
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="userid != null">
+        userid,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="ip != null">
-        #{ip,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -47,8 +43,11 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -56,18 +55,18 @@
     update boke_article_message
     set content = #{content,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       is_effective = #{isEffective,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, content, email, name, ip, is_effective, gmt_created, gmt_modified
+    select id, content, email, nickname, is_effective, gmt_created, gmt_modified
     from boke_article_message
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, content, email, name, ip, is_effective, gmt_created, gmt_modified
+    select id, content, email, nickname, is_effective, gmt_created, gmt_modified
     from boke_article_message
     order by gmt_created DESC limit 5
   </select>

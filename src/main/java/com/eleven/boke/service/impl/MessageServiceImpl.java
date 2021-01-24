@@ -3,20 +3,16 @@ package com.eleven.boke.service.impl;
 import com.eleven.boke.base.ResultUtil;
 import com.eleven.boke.controller.ArticleController;
 import com.eleven.boke.enums.MessageEnum;
-import com.eleven.boke.mapper.BokeArticleInfoDoMapper;
-import com.eleven.boke.mapper.BokeArticleMessageDoMapper;
-import com.eleven.boke.mapper.BokeCommentListDoMapper;
-import com.eleven.boke.mapper.BokeUserInfoDoMapper;
-import com.eleven.boke.pojo.Do.BokeArticleInfoDo;
-import com.eleven.boke.pojo.Do.BokeArticleMessageDo;
-import com.eleven.boke.pojo.Do.BokeCommentListDo;
-import com.eleven.boke.pojo.Do.BokeUserInfoDo;
+import com.eleven.boke.mapper.*;
+import com.eleven.boke.pojo.Do.*;
 import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.AddCommentListQuery;
 import com.eleven.boke.pojo.query.AddMessageQuery;
 import com.eleven.boke.pojo.query.GetBokeCommentListQuery;
+import com.eleven.boke.pojo.query.GetQueryThumdsQuery;
 import com.eleven.boke.pojo.vo.ArticleVo;
 import com.eleven.boke.pojo.vo.BokeCommentListVo;
+import com.eleven.boke.pojo.vo.BokeCommentThumdsVo;
 import com.eleven.boke.pojo.vo.UserInfoVo;
 import com.eleven.boke.service.MessageService;
 import com.eleven.boke.util.BeanUtils;
@@ -55,35 +51,48 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private BokeUserInfoDoMapper bokeUserInfoDoMapper;
 
+    @Autowired
+    private BokeThumbsListDoMapper bokeThumbsListDoMapper;
+
     @Override
     public ResultEntity<BokeArticleMessageDo> addMessage(AddMessageQuery addMessageQuery) {
         if (addMessageQuery.getEmail() == null || addMessageQuery.getIp() == null
-        || addMessageQuery.getName() == null) {
+        || addMessageQuery.getNickname() == null) {
             ResultUtil.error(MessageEnum.MESSAGE_PARAMS_NULL);
         }
         BokeArticleMessageDo bokeArticleMessageDo = new BokeArticleMessageDo();
         bokeArticleMessageDo.setContent(addMessageQuery.getContent());
         bokeArticleMessageDo.setEmail(addMessageQuery.getEmail());
-        bokeArticleMessageDo.setIp(addMessageQuery.getIp());
-        bokeArticleMessageDo.setName(addMessageQuery.getName());
+        bokeArticleMessageDo.setNickname(addMessageQuery.getNickname());
         bokeArticleMessageDo.setIsEffective(new BigDecimal(MessageEnum.MESSAGE_IS_EFFECTIVE.getCode()).longValue());
+        bokeArticleMessageDo.setUserid(addMessageQuery.getUserid());
         bokeArticleMessageDoMapper.insert(bokeArticleMessageDo);
 
         UserInfoVo userInfoVo = new UserInfoVo();
 
 
-        List<BokeUserInfoDo> bokeUserInfoDos = bokeUserInfoDoMapper.selectIdAgent(addMessageQuery.getIp(), addMessageQuery.getAgent());
+        List<BokeUserInfoDo> bokeUserInfoDos = bokeUserInfoDoMapper.selectNickName(addMessageQuery.getNickname());
         if (bokeUserInfoDos.size() == 0) {
             userInfoVo.setHeadPicture(addMessageQuery.getHeadPicture());
             userInfoVo.setAgent(addMessageQuery.getAgent());
-            userInfoVo.setNickname(addMessageQuery.getName());
+            userInfoVo.setNickname(addMessageQuery.getNickname());
             userInfoVo.setEmail(addMessageQuery.getEmail());
             userInfoVo.setIp(addMessageQuery.getIp());
+            userInfoVo.setPhone(addMessageQuery.getPhone());
 
             bokeUserInfoDoMapper.insert(userInfoVo);
+            return ResultUtil.success(userInfoVo);
+        } else {
+            userInfoVo.setHeadPicture(bokeUserInfoDos.get(0).getHead_picture());
+            userInfoVo.setAgent(bokeUserInfoDos.get(0).getAgent());
+            userInfoVo.setNickname(bokeUserInfoDos.get(0).getNickname());
+            userInfoVo.setEmail(bokeUserInfoDos.get(0).getEmail());
+            userInfoVo.setPhone(bokeUserInfoDos.get(0).getPhone());
+            userInfoVo.setId(bokeUserInfoDos.get(0).getId());
+            return ResultUtil.success(userInfoVo);
         }
 
-        return ResultUtil.success(bokeArticleMessageDo);
+
     }
 
     @Override
@@ -199,5 +208,21 @@ public class MessageServiceImpl implements MessageService {
         }
 
         return ResultUtil.success(bokeCommentListVos);
+    }
+
+    @Override
+    public ResultEntity<BokeCommentThumdsVo> getCommentThumds(GetQueryThumdsQuery getQueryThumdsQuery) {
+
+        List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleId(getQueryThumdsQuery.getUserid(), getQueryThumdsQuery.getArticleId());
+        if (bokeThumbsListDos.size() > 0) {
+            BokeCommentThumdsVo bokeCommentThumdsVo = new BokeCommentThumdsVo();
+            bokeCommentThumdsVo.setThumdsStatus(bokeThumbsListDos.get(0).getStatus().intValue());
+            return ResultUtil.success(bokeCommentThumdsVo);
+        } else {
+            BokeCommentThumdsVo bokeCommentThumdsVo = new BokeCommentThumdsVo();
+            bokeCommentThumdsVo.setThumdsStatus(0);
+            return ResultUtil.success(bokeCommentThumdsVo);
+        }
+
     }
 }

@@ -3,14 +3,14 @@
 <mapper namespace="com.eleven.boke.mapper.BokeThumbsListDoMapper">
     <resultMap id="BaseResultMap" type="com.eleven.boke.pojo.Do.BokeThumbsListDo">
         <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="ip" jdbcType="VARCHAR" property="ip" />
         <result column="article_id" jdbcType="BIGINT" property="articleId" />
+        <result column="userid" jdbcType="BIGINT" property="userid" />
         <result column="status" jdbcType="BIGINT" property="status" />
         <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     </resultMap>
     <sql id="Base_Column_List">
-      id, ip, article_id, status, gmt_created, gmt_modified
+      id, userid, article_id, status, gmt_created, gmt_modified
     </sql>
     <insert id="insert" parameterType="com.eleven.boke.pojo.Do.BokeThumbsListDo">
         insert into boke_thumbs_list
@@ -24,6 +24,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="userid != null">
+                userid,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="ip != null">
@@ -34,6 +37,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>

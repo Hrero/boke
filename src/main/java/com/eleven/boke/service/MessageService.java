@@ -6,7 +6,9 @@ import com.eleven.boke.pojo.entity.ResultEntity;
 import com.eleven.boke.pojo.query.AddCommentListQuery;
 import com.eleven.boke.pojo.query.AddMessageQuery;
 import com.eleven.boke.pojo.query.GetBokeCommentListQuery;
+import com.eleven.boke.pojo.query.GetQueryThumdsQuery;
 import com.eleven.boke.pojo.vo.BokeCommentListVo;
+import com.eleven.boke.pojo.vo.BokeCommentThumdsVo;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface MessageService {
     ResultEntity<BokeCommentListDo> addCommentList(AddCommentListQuery addCommentListQuery);
 
     ResultEntity<List<BokeCommentListVo>> getCommentList(GetBokeCommentListQuery getBokeCommentListQuery);
+
+    ResultEntity<BokeCommentThumdsVo> getCommentThumds(GetQueryThumdsQuery getQueryThumdsQuery);
 }

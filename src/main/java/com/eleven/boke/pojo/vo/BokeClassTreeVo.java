@@ -22,6 +22,16 @@ public class BokeClassTreeVo implements Serializable {
     private String path;
     private Integer status;
 
+    private Integer articleNum;
+
+    public Integer getArticleNum() {
+        return articleNum;
+    }
+
+    public void setArticleNum(Integer articleNum) {
+        this.articleNum = articleNum;
+    }
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isLeaf;
 

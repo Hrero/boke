@@ -6,14 +6,8 @@ import com.eleven.boke.controller.ArticleController;
 import com.eleven.boke.enums.ArticleInfoEnum;
 import com.eleven.boke.enums.ArticleSortEnum;
 import com.eleven.boke.handle.BaseEnumTypeHandler;
-import com.eleven.boke.mapper.BokeArticleInfoDoMapper;
-import com.eleven.boke.mapper.BokeClassTreeDoMapper;
-import com.eleven.boke.mapper.BokeSysViewDoMapper;
-import com.eleven.boke.mapper.BokeThumbsListDoMapper;
-import com.eleven.boke.pojo.Do.BokeArticleInfoDo;
-import com.eleven.boke.pojo.Do.BokeClassTreeDo;
-import com.eleven.boke.pojo.Do.BokeSysViewDo;
-import com.eleven.boke.pojo.Do.BokeThumbsListDo;
+import com.eleven.boke.mapper.*;
+import com.eleven.boke.pojo.Do.*;
 import com.eleven.boke.pojo.Dto.ArticleHotDto;
 import com.eleven.boke.pojo.vo.BokeClassTreeVo;
 import com.eleven.boke.pojo.vo.GetArticleInfoVo;
@@ -55,6 +49,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private BokeClassTreeDoMapper bokeClassTreeDoMapper;
+
+    @Autowired
+    private BokeCommentListDoMapper bokeCommentListDoMapper;
 
     private ResultUtil resultUtil = new ResultUtil();
 
@@ -130,12 +127,14 @@ public class ArticleServiceImpl implements ArticleService {
 
         for (ArticleVo in:
              articleVos) {
-            if (articleListQuery.getIp() != null) {
-                List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(articleListQuery.getIp(), in.getId(), 1l);
+            if (articleListQuery.getUserid() != null) {
+                List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(articleListQuery.getUserid(), in.getId(), 1l);
                 if (bokeThumbsListDos.size() > 0) {
                     in.setThumdsStatus(bokeThumbsListDos.get(0).getStatus());
                 }
             }
+            List<BokeCommentListDo> bokeCommentListDos = bokeCommentListDoMapper.selectParentbyArticleId(in.getId());
+            in.setMessageNum(bokeCommentListDos.size());
             List<BokeThumbsListDo> thumbsListDoList = bokeThumbsListDoMapper.selectIdArticleList(in.getId(), 1l);
             in.setThumdsSum(new Long(thumbsListDoList.size()));
 
@@ -188,8 +187,8 @@ public class ArticleServiceImpl implements ArticleService {
         if (bokeArticleInfoDo.getAuthor() != null) {
             articleVo.setAuthor(bokeArticleInfoDo.getAuthor());
         }
-        if (getArticleInfoVo.getIp() != null) {
-            List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(getArticleInfoVo.getIp(), bokeArticleInfoDo.getId(), 1l);
+        if (getArticleInfoVo.getUserid() != null) {
+            List<BokeThumbsListDo> bokeThumbsListDos = bokeThumbsListDoMapper.selectIdArticleStatus(getArticleInfoVo.getUserid(), bokeArticleInfoDo.getId(), 1l);
             if (bokeThumbsListDos.size() > 0) {
                 articleVo.setThumdsStatus(bokeThumbsListDos.get(0).getStatus());
             }
@@ -220,6 +219,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
             in.setLabel(in.getName());
             in.setValue(in.getId());
+
         }
         return resultUtil.success(BokeClassTreeVos);
     };
@@ -238,6 +238,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
             in.setLabel(in.getName());
             in.setValue(in.getId());
+            in.setArticleNum(bokeClassTreeDos1.size());
         }
     }
 

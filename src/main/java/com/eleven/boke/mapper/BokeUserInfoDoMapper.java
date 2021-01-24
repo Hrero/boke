@@ -16,19 +16,13 @@ public interface BokeUserInfoDoMapper {
 
     int insert(UserInfoVo record);
 
-
-    @Select("SELECT * FROM boke_user_info WHERE ip = #{ip} and agent = #{agent}")
-    List<BokeUserInfoDo> selectIdAgent(@Param("ip") String ip, @Param("agent") String agent);
-
-
     @Select("SELECT * FROM boke_user_info WHERE nickname = #{nickname}")
-    BokeUserInfoDo selectNickName(@Param("nickname") String nickname);
-
-    @Select("SELECT * FROM boke_user_info WHERE ip = #{ip} and agent = #{agent}")
-    BokeUserInfoDo selectByAgentIp(@Param("ip") String ip, @Param("agent") String agent);
+    List<BokeUserInfoDo> selectNickName(@Param("nickname") String nickname);
 
 
-//    @Select("SELECT * FROM boke_user_info WHERE id = #{id}")
+    @Select("SELECT * FROM boke_user_info WHERE userid = #{userid} and agent = #{agent}")
+    BokeUserInfoDo selectByAgentIp(@Param("userid") String userid, @Param("agent") String agent);
+
     BokeUserInfoDo selectById(@Param("id") Long id);
 
 

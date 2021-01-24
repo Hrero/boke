@@ -3,7 +3,6 @@
 <mapper namespace="com.eleven.boke.mapper.BokeUserInfoDoMapper">
     <resultMap id="BaseResultMap" type="com.eleven.boke.pojo.Do.BokeUserInfoDo">
         <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="ip" jdbcType="VARCHAR" property="ip" />
         <result column="email" jdbcType="VARCHAR" property="email" />
         <result column="nickname" jdbcType="VARCHAR" property="nickname" />
         <result column="agent" jdbcType="VARCHAR" property="agent" />
@@ -12,14 +11,11 @@
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     </resultMap>
     <sql id="Base_Column_List">
-      id, ip, email, nickname, agent, head_picture, gmt_created, gmt_modified
+      id, email, nickname, agent, head_picture, gmt_created, gmt_modified
     </sql>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.eleven.boke.pojo.Do.BokeUserInfoDo">
         insert into boke_user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                ip,
-            </if>
             <if test="email != null">
                 email,
             </if>
@@ -32,11 +28,11 @@
             <if test="headPicture != null">
                 head_picture,
             </if>
+            <if test="phone != null">
+                phone,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                #{ip,jdbcType=VARCHAR},
-            </if>
             <if test="email != null">
                 #{email,jdbcType=VARCHAR},
             </if>
@@ -48,6 +44,9 @@
             </if>
             <if test="headPicture != null">
                 #{headPicture,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
