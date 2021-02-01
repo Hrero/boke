@@ -93,7 +93,7 @@
         <include refid="Base_Column_List"/>
         from boke_comment_list
         where article_id = #{articleId,jdbcType=BIGINT}
-        and comment_level = 1 ORDER BY top_status desc ,gmt_created desc
+        and comment_level = 1 ORDER BY top_status desc
     </select>
 
     <select id="selectNomalListbyArticleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
